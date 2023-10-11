@@ -1,39 +1,32 @@
-import string
+def machine():
+    # creating key strings
+    keys = 'abcdefghijklmnopqrstuvwxyz !'
+    # auto generating the vaules of strings
+    # value will be generted by taking last to first
+    # concatinated with the rest of the string
+    values = keys[-1] + keys[0:-1]
+    # print(keys)
+    # print(values)
 
-def encrypt(plain_text, shift):
-    encrypted_text = ""
-    alphabet = string.ascii_uppercase
+    # creating two dictionaries
+    encrytDict = dict(zip(keys, values))
+    decryptDict = dict(zip(values, keys))
 
-    for char in plain_text:
-        if char.upper() in alphabet:
-            char_index = (alphabet.index(char.upper()) + shift) % 26
-            encrypted_text += alphabet[char_index]
-        else:
-            encrypted_text += char
+    # user input
+    message = input("Enter your secret message: ")
+    mode = input("Crypto Mode : Encode(E) OR Decode(D)")
 
-    return encrypted_text
+    #encode and decode
+    if mode.upper() == 'E':
+        newMessage = ''.join([encrytDict[letter]
+                              for letter in message.lower()])
+    elif mode.upper() == 'D':
+        newMessage = ''.join([decryptDict[letter]
+                              for letter in message.lower()])
+    else:
+        print("Please try again, wrong choice entered")
 
-def decrypt(encrypted_text, shift):
-    decrypted_text = ""
-    alphabet = string.ascii_uppercase
+    return newMessage.capitalize()
 
-    for char in encrypted_text:
-        if char.upper() in alphabet:
-            char_index = (alphabet.index(char.upper()) - shift) % 26
-            decrypted_text += alphabet[char_index]
-        else:
-            decrypted_text += char
 
-    return decrypted_text
-
-# Example usage
-shift_amount = 3
-message = string(input("Type Your Message: "))
-
-# Encrypt the message
-encrypted_message = encrypt(message, shift_amount)
-print("Encrypted:", encrypted_message)
-
-# Decrypt the encrypted message
-decrypted_message = decrypt(encrypted_message, shift_amount)
-print("Decrypted:", decrypted_message)
+print(machine())
